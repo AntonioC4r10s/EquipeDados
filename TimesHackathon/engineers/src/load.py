@@ -14,6 +14,7 @@ def get_engine():
 def insert_db():
     """Função para inserir dados no banco"""
     df = transformar_dados()
+    print(df.keys())
     engine = get_engine()
     try:
         with engine.begin() as connection:
@@ -25,21 +26,21 @@ def insert_db():
 def queries():
     """Função que faz consulta no banco. Não necessária para o load, mas montei para visualização"""
     engine = get_engine()
-    query = """SELECT 
-                Index, 
-                timestamp, 
-                interesse_voluntario, 
-                nivel_experiencia, 
-                areas_interesse, 
-                linguagens_ferramentas, 
-                frameworks_bibliotecas, 
-                disponibilidade_horario, 
-                preferencias_colaboracao, 
-                liderar_projetos 
-            FROM respostas_formulario 
-            ORDER BY timestamp DESC 
-            LIMIT 100;
-            """
+    query = """
+        SELECT 
+            timestamp, 
+            nome_completo, 
+            papel_atual_comunidade, 
+            url_trilha_aguardando, 
+            area_atuacao, 
+            linguagem_frameworks, 
+            disponibilidade_horario, 
+            comprometimento_hackathon, 
+            preparado_trabalhar_em_equipe
+        FROM respostas_formulario
+        ORDER BY timestamp DESC
+        LIMIT 100;
+    """
     try:
         with engine.connect() as connection:
             df = pd.read_sql(query, con=connection)
